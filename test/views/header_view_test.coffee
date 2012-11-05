@@ -19,7 +19,7 @@ describe 'HeaderView', ->
     @model.dispose()
 
   it 'should display 4 links', ->
-    expect(@view.$el.find 'a').to.have.length 4
+    expect(@view.$el.find 'a').to.have.length 5
 
   it 'should re-render on login event', ->
     expect(@view.renderTimes).to.equal 1
