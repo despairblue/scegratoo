@@ -1,12 +1,12 @@
 {
-  "author": "Your Name",
-  "name": "package-name",
-  "description": "Package description",
+  "author": "Danny Arnold",
+  "name": "SceGraToo",
+  "description": "Scene Graph Composition Tool for the Web",
   "version": "0.0.1",
-  "homepage": "",
+  "homepage": "https://github.com/despairblue/scegratoo#readme",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git@github.com:despairblue/scegratoo.git"
   },
   "engines": {
     "node": "~0.6.10 || 0.8 || 0.9"
