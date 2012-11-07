@@ -13,6 +13,9 @@ module.exports = class PageView extends View
         @render() unless rendered
         rendered = yes
 
+  getNavigationData: ->
+    activeView: @id
+
   renderSubviews: ->
     return
 
@@ -21,3 +24,4 @@ module.exports = class PageView extends View
     unless @renderedSubviews
       @renderSubviews()
       @renderedSubviews = yes
+    @publishEvent 'navigation:change', @getNavigationData()
