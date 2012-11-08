@@ -1,0 +1,38 @@
+@import 'nib'
+
+.sidebar
+  position absolute
+  width  20%
+  left 0
+  top 6%
+  bottom 0
+  background #eeeeee
+  box-shadow 0 5px 15px -10px rgba(0, 0, 0, 0.5) inset
+  overflow hidden
+  cursor default
+  border-color #aaaaaa
+  border-right-style solid
+  &-buttons
+    margin-top: 10px
+    text-align: right
+    color white
+    border 1px solid #5d910b
+    background linear-gradient(top, #93bd20, #659e10)
+    border-radius 2px
+    box-shadow inset 0px 1px 0px rgba(255, 255, 255, 0.3), 0px 3px 7px rgba(0, 0, 0, 0.7)
+    background-color #93bd20
+    padding 10px 12px
+    line-height 14px
+    font-size 14px
+    display inline-block
+    text-align center
+    &:hover
+      box-shadow: inset 0px 3px 7px rgba(0, 0, 0, 0.3)
+    &:active, &.active
+      background: linear-gradient(top, #749619, #527f0e)
+      background-color: #659e10
+      border: 1px solid #527f0e
+      box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.2), 0px 1px 0px rgba(0, 0, 0, 0)
+  &-inputs
+    margin-top 10px
+    padding 10px

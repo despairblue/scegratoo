@@ -2,6 +2,7 @@ Chaplin = require 'chaplin'
 mediator = require 'mediator'
 routes = require 'routes'
 HeaderController = require 'controllers/header_controller'
+SidebarController = require 'controllers/sidebar_controller'
 Layout = require 'views/layout'
 
 # The application object
@@ -49,6 +50,7 @@ module.exports = class Application extends Chaplin.Application
     # or navigation views.
     # e.g. new NavigationController()
     new HeaderController()
+    new SidebarController()
 
   # Create additional mediator properties
   # -------------------------------------
