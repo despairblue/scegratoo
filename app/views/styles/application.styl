@@ -6,3 +6,52 @@
 // http://paulirish.com/2012/box-sizing-border-box-ftw/
 *
   box-sizing: border-box
+
+html
+  margin 0
+  padding 0
+  background #737373
+
+.application-container
+  width 100%
+
+.outer-container
+  float left
+  width 80%
+
+.page-container
+  background gray
+  padding 5px
+  margin 5px 5px 5px 0px
+  border-radius 5px
+
+input, textarea
+  font-size 16px
+  position relative
+  width 85%
+
+input:invalid, textarea:invalid
+  background-color #f6f0f0
+
+textarea:disabled
+  background-color #d5d5d5
+
+.button
+  color white
+  border 1px solid #5d910b
+  background linear-gradient(top, #93bd20, #659e10)
+  border-radius 2px
+  box-shadow inset 0px 1px 0px rgba(255, 255, 255, 0.3), 0px 3px 7px rgba(0, 0, 0, 0.7)
+  background-color #93bd20
+  padding 10px 12px
+  line-height 14px
+  font-size 14px
+  display inline-block
+  text-align center
+  &:hover
+    box-shadow: inset 0px 3px 7px rgba(0, 0, 0, 0.3)
+  &:active, &.active
+    background: linear-gradient(top, #749619, #527f0e)
+    background-color: #659e10
+    border: 1px solid #527f0e
+    box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.2), 0px 1px 0px rgba(0, 0, 0, 0)
