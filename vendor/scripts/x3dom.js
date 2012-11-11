@@ -39,6 +39,7 @@ if(!Array.filter) {
 var x3dom = {
   canvases: []
 };
+x3dom.loaded = false;
 x3dom.x3dNS = 'http://www.web3d.org/specifications/x3d-namespace';
 x3dom.x3dextNS = 'http://philip.html5.org/x3d/ext';
 x3dom.xsltNS = 'http://www.w3.org/1999/XSL/x3dom.Transform';
@@ -1649,151 +1650,162 @@ x3dom.userAgentFeature = {
 };
 
 x3dom.load = function() {
-  var i, j;
-      var x3ds = document.getElementsByTagName('X3D');
-      var w3sg = document.getElementsByTagName('webSG');
-      var params;
-      var settings = new x3dom.Properties();
-      var validParams = array_to_object(['showLog', 'showStat', 'showProgress', 'PrimitiveQuality', 'component', 'loadpath', 'disableDoubleClick', 'maxActiveDownloads']);
-      var components, prefix;
-      var showLoggingConsole = false;
-      for(i = 0; i < x3ds.length; i++) {
-        settings.setProperty("showLog", x3ds[i].getAttribute("showLog") || 'false');
-        settings.setProperty("showStat", x3ds[i].getAttribute("showStat") || 'false');
-        settings.setProperty("showProgress", x3ds[i].getAttribute("showProgress") || 'true');
-        settings.setProperty("PrimitiveQuality", x3ds[i].getAttribute("PrimitiveQuality") || 'High');
-        params = x3ds[i].getElementsByTagName('PARAM');
-        for(j = 0; j < params.length; j++) {
-          if(params[j].getAttribute('name') in validParams) {
-            settings.setProperty(params[j].getAttribute('name'), params[j].getAttribute('value'));
-          } else {}
-        }
-        if(settings.getProperty('showLog') === 'true') {
-          showLoggingConsole = true;
-        }
-        if(typeof X3DOM_SECURITY_OFF != 'undefined' && X3DOM_SECURITY_OFF === true) {
-          components = settings.getProperty('components', x3ds[i].getAttribute("components"));
-          if(components) {
-            prefix = settings.getProperty('loadpath', x3ds[i].getAttribute("loadpath"));
-            components = components.trim().split(',');
-            for(j = 0; j < components.length; j++) {
-              x3dom.loadJS(components[j] + ".js", prefix);
-            }
-          }
-        }
-        if(typeof X3DOM_SECURITY_OFF != 'undefined' && X3DOM_SECURITY_OFF === true) {
-          if(x3ds[i].getAttribute("src")) {
-            var _scene = document.createElement("scene");
-            var _inl = document.createElement("Inline");
-            _inl.setAttribute("url", x3ds[i].getAttribute("src"));
-            _scene.appendChild(_inl);
-            x3ds[i].appendChild(_scene);
+
+  if(x3dom.loaded === false) {
+
+    x3dom.loaded = true;
+
+    var i, j;
+    var x3ds = document.getElementsByTagName('X3D');
+    var w3sg = document.getElementsByTagName('webSG');
+    var params;
+    var settings = new x3dom.Properties();
+    var validParams = array_to_object(['showLog', 'showStat', 'showProgress', 'PrimitiveQuality', 'component', 'loadpath', 'disableDoubleClick', 'maxActiveDownloads']);
+    var components, prefix;
+    var showLoggingConsole = false;
+    for(i = 0; i < x3ds.length; i++) {
+      settings.setProperty("showLog", x3ds[i].getAttribute("showLog") || 'false');
+      settings.setProperty("showStat", x3ds[i].getAttribute("showStat") || 'false');
+      settings.setProperty("showProgress", x3ds[i].getAttribute("showProgress") || 'true');
+      settings.setProperty("PrimitiveQuality", x3ds[i].getAttribute("PrimitiveQuality") || 'High');
+      params = x3ds[i].getElementsByTagName('PARAM');
+      for(j = 0; j < params.length; j++) {
+        if(params[j].getAttribute('name') in validParams) {
+          settings.setProperty(params[j].getAttribute('name'), params[j].getAttribute('value'));
+        } else {}
+      }
+      if(settings.getProperty('showLog') === 'true') {
+        showLoggingConsole = true;
+      }
+      if(typeof X3DOM_SECURITY_OFF != 'undefined' && X3DOM_SECURITY_OFF === true) {
+        components = settings.getProperty('components', x3ds[i].getAttribute("components"));
+        if(components) {
+          prefix = settings.getProperty('loadpath', x3ds[i].getAttribute("loadpath"));
+          components = components.trim().split(',');
+          for(j = 0; j < components.length; j++) {
+            x3dom.loadJS(components[j] + ".js", prefix);
           }
         }
       }
-      if(showLoggingConsole === true) {
-        x3dom.debug.activate(true);
+      if(typeof X3DOM_SECURITY_OFF != 'undefined' && X3DOM_SECURITY_OFF === true) {
+        if(x3ds[i].getAttribute("src")) {
+          var _scene = document.createElement("scene");
+          var _inl = document.createElement("Inline");
+          _inl.setAttribute("url", x3ds[i].getAttribute("src"));
+          _scene.appendChild(_inl);
+          x3ds[i].appendChild(_scene);
+        }
+      }
+    }
+    if(showLoggingConsole === true) {
+      x3dom.debug.activate(true);
+    } else {
+      x3dom.debug.activate(false);
+    }
+    if(window.navigator.userAgent.match(/webkit/i)) {
+      x3dom.debug.logInfo("Active DOMAttrModifiedEvent workaround for webkit ");
+      x3dom.userAgentFeature.supportsDOMAttrModified = false;
+    }
+    x3ds = Array.map(x3ds, function(n) {
+      n.runtime = new x3dom.Runtime();
+      n.hasRuntime = true;
+      return n;
+    });
+    w3sg = Array.map(w3sg, function(n) {
+      n.hasRuntime = false;
+      return n;
+    });
+    for(i = 0; i < w3sg.length; i++) {
+      x3ds.push(w3sg[i]);
+    }
+    if(x3dom.versionInfo !== undefined) {
+      x3dom.debug.logInfo("X3DOM version " + x3dom.versionInfo.version + ", " + "Revison <a href='https://github.com/x3dom/x3dom/tree/" + x3dom.versionInfo.revision + "'>" + x3dom.versionInfo.revision + "</a>, " + "Date " + x3dom.versionInfo.date);
+    }
+    x3dom.debug.logInfo("Found " + (x3ds.length - w3sg.length) + " X3D and " + w3sg.length + " (experimental) WebSG nodes...");
+    var x3d_element;
+    var x3dcanvas;
+    var altDiv, altP, aLnk, altImg, altImgObj;
+    var t0, t1;
+    for(i = 0; i < x3ds.length; i++) {
+      x3d_element = x3ds[i];
+      if(x3dom.detectActiveX()) {
+        x3dom.insertActiveX(x3d_element);
+        continue;
+      }
+      x3dcanvas = new x3dom.X3DCanvas(x3d_element, i);
+      if(x3dcanvas.gl === null) {
+        altDiv = document.createElement("div");
+        altDiv.setAttribute("class", "x3dom-nox3d");
+        altP = document.createElement("p");
+        altP.appendChild(document.createTextNode("WebGL is not yet supported in your browser. "));
+        aLnk = document.createElement("a");
+        aLnk.setAttribute("href", "http://www.x3dom.org/?page_id=9");
+        aLnk.appendChild(document.createTextNode("Follow link for a list of supported browsers... "));
+        altDiv.appendChild(altP);
+        altDiv.appendChild(aLnk);
+        x3dcanvas.x3dElem.appendChild(altDiv);
+        if(x3dcanvas.statDiv) {
+          x3d_element.removeChild(x3dcanvas.statDiv);
+        }
+        altImg = x3ds[i].getAttribute("altImg") || null;
+        if(altImg) {
+          altImgObj = new Image();
+          altImgObj.src = altImg;
+          x3d_element.style.backgroundImage = "url(" + altImg + ")";
+        }
+        continue;
+      }
+      t0 = new Date().getTime();
+      x3ds[i].runtime = new x3dom.Runtime(x3ds[i], x3dcanvas);
+      x3ds[i].runtime.initialize(x3ds[i], x3dcanvas);
+      if(x3dom.runtime.ready) {
+        x3ds[i].runtime.ready = x3dom.runtime.ready;
+      }
+      x3dcanvas.load(x3ds[i], i, settings);
+      if(settings.getProperty('showStat') === 'true') {
+        x3ds[i].runtime.statistics(true);
       } else {
-        x3dom.debug.activate(false);
+        x3ds[i].runtime.statistics(false);
       }
-      if(window.navigator.userAgent.match(/webkit/i)) {
-        x3dom.debug.logInfo("Active DOMAttrModifiedEvent workaround for webkit ");
-        x3dom.userAgentFeature.supportsDOMAttrModified = false;
+      if(settings.getProperty('showProgress') === 'true') {
+        if(settings.getProperty('showProgress') === 'bar') {
+          x3dcanvas.progressDiv.setAttribute("class", "x3dom-progress bar");
+        }
+        x3ds[i].runtime.processIndicator(true);
+      } else {
+        x3ds[i].runtime.processIndicator(false);
       }
-      x3ds = Array.map(x3ds, function(n) {
-        n.runtime = new x3dom.Runtime();
-        n.hasRuntime = true;
-        return n;
-      });
-      w3sg = Array.map(w3sg, function(n) {
-        n.hasRuntime = false;
-        return n;
-      });
-      for(i = 0; i < w3sg.length; i++) {
-        x3ds.push(w3sg[i]);
+      x3dom.canvases.push(x3dcanvas);
+      t1 = new Date().getTime() - t0;
+      x3dom.debug.logInfo("Time for setup and init of GL element no. " + i + ": " + t1 + " ms.");
+    }
+    var ready = (function(eventType) {
+      var evt = null;
+      if(document.createEvent) {
+        evt = document.createEvent("Events");
+        evt.initEvent(eventType, true, true);
+        document.dispatchEvent(evt);
+      } else if(document.createEventObject) {
+        evt = document.createEventObject();
+        document.body.fireEvent('on' + eventType, evt);
       }
-      if(x3dom.versionInfo !== undefined) {
-        x3dom.debug.logInfo("X3DOM version " + x3dom.versionInfo.version + ", " + "Revison <a href='https://github.com/x3dom/x3dom/tree/" + x3dom.versionInfo.revision + "'>" + x3dom.versionInfo.revision + "</a>, " + "Date " + x3dom.versionInfo.date);
-      }
-      x3dom.debug.logInfo("Found " + (x3ds.length - w3sg.length) + " X3D and " + w3sg.length + " (experimental) WebSG nodes...");
-      var x3d_element;
-      var x3dcanvas;
-      var altDiv, altP, aLnk, altImg, altImgObj;
-      var t0, t1;
-      for(i = 0; i < x3ds.length; i++) {
-        x3d_element = x3ds[i];
-        if(x3dom.detectActiveX()) {
-          x3dom.insertActiveX(x3d_element);
-          continue;
-        }
-        x3dcanvas = new x3dom.X3DCanvas(x3d_element, i);
-        if(x3dcanvas.gl === null) {
-          altDiv = document.createElement("div");
-          altDiv.setAttribute("class", "x3dom-nox3d");
-          altP = document.createElement("p");
-          altP.appendChild(document.createTextNode("WebGL is not yet supported in your browser. "));
-          aLnk = document.createElement("a");
-          aLnk.setAttribute("href", "http://www.x3dom.org/?page_id=9");
-          aLnk.appendChild(document.createTextNode("Follow link for a list of supported browsers... "));
-          altDiv.appendChild(altP);
-          altDiv.appendChild(aLnk);
-          x3dcanvas.x3dElem.appendChild(altDiv);
-          if(x3dcanvas.statDiv) {
-            x3d_element.removeChild(x3dcanvas.statDiv);
-          }
-          altImg = x3ds[i].getAttribute("altImg") || null;
-          if(altImg) {
-            altImgObj = new Image();
-            altImgObj.src = altImg;
-            x3d_element.style.backgroundImage = "url(" + altImg + ")";
-          }
-          continue;
-        }
-        t0 = new Date().getTime();
-        x3ds[i].runtime = new x3dom.Runtime(x3ds[i], x3dcanvas);
-        x3ds[i].runtime.initialize(x3ds[i], x3dcanvas);
-        if(x3dom.runtime.ready) {
-          x3ds[i].runtime.ready = x3dom.runtime.ready;
-        }
-        x3dcanvas.load(x3ds[i], i, settings);
-        if(settings.getProperty('showStat') === 'true') {
-          x3ds[i].runtime.statistics(true);
-        } else {
-          x3ds[i].runtime.statistics(false);
-        }
-        if(settings.getProperty('showProgress') === 'true') {
-          if(settings.getProperty('showProgress') === 'bar') {
-            x3dcanvas.progressDiv.setAttribute("class", "x3dom-progress bar");
-          }
-          x3ds[i].runtime.processIndicator(true);
-        } else {
-          x3ds[i].runtime.processIndicator(false);
-        }
-        x3dom.canvases.push(x3dcanvas);
-        t1 = new Date().getTime() - t0;
-        x3dom.debug.logInfo("Time for setup and init of GL element no. " + i + ": " + t1 + " ms.");
-      }
-      var ready = (function(eventType) {
-        var evt = null;
-        if(document.createEvent) {
-          evt = document.createEvent("Events");
-          evt.initEvent(eventType, true, true);
-          document.dispatchEvent(evt);
-        } else if(document.createEventObject) {
-          evt = document.createEventObject();
-          document.body.fireEvent('on' + eventType, evt);
-        }
-      })('load');
-    };
+    })('load');
+  }
+};
+
+x3dom.unload = function() {
+  x3dom.loaded = false;
+  for(var i = 0; i < x3dom.canvases.length; i++) {
+    x3dom.canvases[i].doc.shutdown(x3dom.canvases[i].gl);
+  }
+  x3dom.canvases = [];
+};
 
 (function() {
   var onload = x3dom.load;
 
-  var onunload = function() {
-      for(var i = 0; i < x3dom.canvases.length; i++) {
-        x3dom.canvases[i].doc.shutdown(x3dom.canvases[i].gl);
-      }
-    };
+  var onunload = x3dom.unload;
+
   if(window.location.pathname.lastIndexOf(".xhtml") > 0) {
     document.__getElementById = document.getElementById;
     document.getElementById = function(id) {
