@@ -16,6 +16,6 @@ describe 'SidebarView', ->
     expect(@view.$el.children()).to.have.length 1
 
   it 'should contain 3 buttons when x3d view is active', ->
-    mediator.publish 'navigation:change', {activeView:'x3d'}
+    mediator.publish 'navigation:change', {activeView:'x3d-page'}
     expect(@view.$el.find 'button').to.have.length 3
 
