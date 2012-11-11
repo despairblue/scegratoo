@@ -28,7 +28,10 @@ module.exports = class X3dPageView extends PageView
     @offset += 3
 
   removeObject: (event) =>
-    alert('remove')
+    if @currentObject
+      pa = @currentObject.parentElement
+      pa.removeChild(@currentObject)
+      @currentObject = null
 
   updateObject: (event) =>
     alert('update')
