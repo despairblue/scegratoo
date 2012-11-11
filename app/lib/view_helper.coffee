@@ -40,4 +40,4 @@ Handlebars.registerHelper 'with_user', (options) ->
 
 Handlebars.registerHelper 'match', (first, second, options) ->
   if first is second
-    options.fn(this);
+    options.fn(this)
