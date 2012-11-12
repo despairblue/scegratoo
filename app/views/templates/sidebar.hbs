@@ -14,11 +14,11 @@
   </div>
   <div class='sidebar-sliders'>
     <label for="trans_x">X:</label>
-    <input type="text" id="trans_x" class="sidebar-inputs" value='{{selectedObject.translation.x}}'/><br>
+    <input type="range" id="trans_x" class="sidebar-inputs" min='-100' max='100' value='{{selectedObject.translation.x}}'/><br>
     <label for="trans_y">Y:</label>
-    <input type="text" id="trans_y" class="sidebar-inputs" value='{{selectedObject.translation.y}}'/><br>
+    <input type="range" id="trans_y" class="sidebar-inputs" min='-100' max='100' value='{{selectedObject.translation.y}}'/><br>
     <label for="trans_z">Z:</label>
-    <input type="text" id="trans_z" class="sidebar-inputs" value='{{selectedObject.translation.z}}'/>
+    <input type="range" id="trans_z" class="sidebar-inputs" min='-100' max='100' value='{{selectedObject.translation.z}}'/>
   </div>
 {{/match}}
 {{#match activeView "home-page"}}
