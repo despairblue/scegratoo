@@ -75,7 +75,7 @@
 })();
 
 window.require.define({"application": function(exports, require, module) {
-  var Application, Chaplin, HeaderController, Layout, SessionController, mediator, routes,
+  var Application, Chaplin, HeaderController, Layout, SidebarController, mediator, routes,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -85,9 +85,9 @@ window.require.define({"application": function(exports, require, module) {
 
   routes = require('routes');
 
-  SessionController = require('controllers/session_controller');
-
   HeaderController = require('controllers/header_controller');
+
+  SidebarController = require('controllers/sidebar_controller');
 
   Layout = require('views/layout');
 
@@ -99,7 +99,7 @@ window.require.define({"application": function(exports, require, module) {
       return Application.__super__.constructor.apply(this, arguments);
     }
 
-    Application.prototype.title = 'Brunch example application';
+    Application.prototype.title = 'SceGraToo';
 
     Application.prototype.initialize = function() {
       Application.__super__.initialize.apply(this, arguments);
@@ -118,8 +118,8 @@ window.require.define({"application": function(exports, require, module) {
     };
 
     Application.prototype.initControllers = function() {
-      new SessionController();
-      return new HeaderController();
+      new HeaderController();
+      return new SidebarController();
     };
 
     Application.prototype.initMediator = function() {
@@ -206,7 +206,7 @@ window.require.define({"controllers/home_controller": function(exports, require,
 
     HomeController.prototype.historyURL = 'home';
 
-    HomeController.prototype.index = function() {
+    HomeController.prototype.show = function() {
       return this.view = new HomePageView();
     };
 
@@ -216,147 +216,70 @@ window.require.define({"controllers/home_controller": function(exports, require,
   
 }});
 
-window.require.define({"controllers/session_controller": function(exports, require, module) {
-  var Controller, LoginView, SessionController, User, mediator,
-    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+window.require.define({"controllers/sidebar_controller": function(exports, require, module) {
+  var Controller, Sidebar, SidebarController, SidebarView,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  mediator = require('mediator');
-
   Controller = require('controllers/base/controller');
 
-  User = require('models/user');
+  Sidebar = require('models/sidebar');
 
-  LoginView = require('views/login_view');
+  SidebarView = require('views/sidebar_view');
 
-  module.exports = SessionController = (function(_super) {
+  module.exports = SidebarController = (function(_super) {
 
-    __extends(SessionController, _super);
+    __extends(SidebarController, _super);
 
-    function SessionController() {
-      this.logout = __bind(this.logout, this);
-
-      this.serviceProviderSession = __bind(this.serviceProviderSession, this);
-
-      this.triggerLogin = __bind(this.triggerLogin, this);
-      return SessionController.__super__.constructor.apply(this, arguments);
+    function SidebarController() {
+      return SidebarController.__super__.constructor.apply(this, arguments);
     }
 
-    SessionController.serviceProviders = {};
-
-    SessionController.prototype.loginStatusDetermined = false;
-
-    SessionController.prototype.loginView = null;
-
-    SessionController.prototype.serviceProviderName = null;
-
-    SessionController.prototype.initialize = function() {
-      this.subscribeEvent('serviceProviderSession', this.serviceProviderSession);
-      this.subscribeEvent('logout', this.logout);
-      this.subscribeEvent('userData', this.userData);
-      this.subscribeEvent('!showLogin', this.showLoginView);
-      this.subscribeEvent('!login', this.triggerLogin);
-      this.subscribeEvent('!logout', this.triggerLogout);
-      return this.getSession();
-    };
-
-    SessionController.prototype.loadServiceProviders = function() {
-      var name, serviceProvider, _ref, _results;
-      _ref = SessionController.serviceProviders;
-      _results = [];
-      for (name in _ref) {
-        serviceProvider = _ref[name];
-        _results.push(serviceProvider.load());
-      }
-      return _results;
-    };
-
-    SessionController.prototype.createUser = function(userData) {
-      return mediator.user = new User(userData);
-    };
-
-    SessionController.prototype.getSession = function() {
-      var name, serviceProvider, _ref, _results;
-      this.loadServiceProviders();
-      _ref = SessionController.serviceProviders;
-      _results = [];
-      for (name in _ref) {
-        serviceProvider = _ref[name];
-        _results.push(serviceProvider.done(serviceProvider.getLoginStatus));
-      }
-      return _results;
-    };
-
-    SessionController.prototype.showLoginView = function() {
-      if (this.loginView) {
-        return;
-      }
-      this.loadServiceProviders();
-      return this.loginView = new LoginView({
-        serviceProviders: SessionController.serviceProviders
+    SidebarController.prototype.initialize = function() {
+      SidebarController.__super__.initialize.apply(this, arguments);
+      this.model = new Sidebar();
+      return this.view = new SidebarView({
+        model: this.model
       });
     };
 
-    SessionController.prototype.triggerLogin = function(serviceProviderName) {
-      var serviceProvider;
-      serviceProvider = SessionController.serviceProviders[serviceProviderName];
-      if (!serviceProvider.isLoaded()) {
-        this.publishEvent('serviceProviderMissing', serviceProviderName);
-        return;
-      }
-      this.publishEvent('loginAttempt', serviceProviderName);
-      return serviceProvider.triggerLogin();
+    return SidebarController;
+
+  })(Controller);
+  
+}});
+
+window.require.define({"controllers/x3d_controller": function(exports, require, module) {
+  var Controller, X3dPageView, X3dsController,
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  Controller = require('controllers/base/controller');
+
+  X3dPageView = require('views/x3d_page_view');
+
+  module.exports = X3dsController = (function(_super) {
+
+    __extends(X3dsController, _super);
+
+    function X3dsController() {
+      return X3dsController.__super__.constructor.apply(this, arguments);
+    }
+
+    X3dsController.prototype.historyURL = 'x3d';
+
+    X3dsController.prototype.show = function() {
+      x3dom.unload();
+      this.view = new X3dPageView();
+      return x3dom.load();
     };
 
-    SessionController.prototype.serviceProviderSession = function(session) {
-      this.serviceProviderName = session.provider.name;
-      this.disposeLoginView();
-      session.id = session.userId;
-      delete session.userId;
-      this.createUser(session);
-      return this.publishLogin();
+    X3dsController.prototype.dispose = function() {
+      X3dsController.__super__.dispose.apply(this, arguments);
+      return x3dom.unload();
     };
 
-    SessionController.prototype.publishLogin = function() {
-      this.loginStatusDetermined = true;
-      this.publishEvent('login', mediator.user);
-      return this.publishEvent('loginStatus', true);
-    };
-
-    SessionController.prototype.triggerLogout = function() {
-      return this.publishEvent('logout');
-    };
-
-    SessionController.prototype.logout = function() {
-      this.loginStatusDetermined = true;
-      this.disposeUser();
-      this.serviceProviderName = null;
-      this.showLoginView();
-      return this.publishEvent('loginStatus', false);
-    };
-
-    SessionController.prototype.userData = function(data) {
-      return mediator.user.set(data);
-    };
-
-    SessionController.prototype.disposeLoginView = function() {
-      if (!this.loginView) {
-        return;
-      }
-      this.loginView.dispose();
-      return this.loginView = null;
-    };
-
-    SessionController.prototype.disposeUser = function() {
-      if (!mediator.user) {
-        return;
-      }
-      mediator.user.dispose();
-      return mediator.user = null;
-    };
-
-    return SessionController;
+    return X3dsController;
 
   })(Controller);
   
@@ -638,6 +561,12 @@ window.require.define({"lib/view_helper": function(exports, require, module) {
     context = mediator.user || {};
     return Handlebars.helpers["with"].call(this, context, options);
   });
+
+  Handlebars.registerHelper('match', function(first, second, options) {
+    if (first === second) {
+      return options.fn(this);
+    }
+  });
   
 }});
 
@@ -707,17 +636,20 @@ window.require.define({"models/header": function(exports, require, module) {
     Header.prototype.defaults = {
       items: [
         {
-          href: './test/',
+          href: '/test/',
           title: 'App Tests'
         }, {
-          href: 'http://brunch.readthedocs.org/',
+          href: 'https://github.com/despairblue/scegratoo',
           title: 'Docs'
         }, {
-          href: 'https://github.com/brunch/brunch/issues',
+          href: 'https://github.com/despairblue/scegratoo/issues',
           title: 'Github Issues'
         }, {
-          href: 'https://github.com/paulmillr/ostio',
-          title: 'Ost.io Example App'
+          href: 'https://github.com/brunch/brunch',
+          title: 'Built with Brunch'
+        }, {
+          href: '/X3D/',
+          title: 'X3D View'
         }
       ]
     };
@@ -728,22 +660,32 @@ window.require.define({"models/header": function(exports, require, module) {
   
 }});
 
-window.require.define({"models/user": function(exports, require, module) {
-  var Model, User,
+window.require.define({"models/sidebar": function(exports, require, module) {
+  var Model, Sidebar,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   Model = require('models/base/model');
 
-  module.exports = User = (function(_super) {
+  module.exports = Sidebar = (function(_super) {
 
-    __extends(User, _super);
+    __extends(Sidebar, _super);
 
-    function User() {
-      return User.__super__.constructor.apply(this, arguments);
+    function Sidebar() {
+      return Sidebar.__super__.constructor.apply(this, arguments);
     }
 
-    return User;
+    Sidebar.prototype.defaults = {
+      selectedObject: {
+        translation: {
+          x: 0,
+          y: 0,
+          z: 0
+        }
+      }
+    };
+
+    return Sidebar;
 
   })(Model);
   
@@ -752,7 +694,8 @@ window.require.define({"models/user": function(exports, require, module) {
 window.require.define({"routes": function(exports, require, module) {
   
   module.exports = function(match) {
-    return match('', 'home#index');
+    match('', 'home#show');
+    return match('X3D/', 'x3d#show');
   };
   
 }});
@@ -818,14 +761,21 @@ window.require.define({"views/base/page_view": function(exports, require, module
       }
     };
 
+    PageView.prototype.getNavigationData = function() {
+      return {
+        activeView: this.id
+      };
+    };
+
     PageView.prototype.renderSubviews = function() {};
 
     PageView.prototype.render = function() {
       PageView.__super__.render.apply(this, arguments);
       if (!this.renderedSubviews) {
         this.renderSubviews();
-        return this.renderedSubviews = true;
+        this.renderedSubviews = true;
       }
+      return this.publishEvent('navigation:change', this.getNavigationData());
     };
 
     return PageView;
@@ -921,6 +871,8 @@ window.require.define({"views/home_page_view": function(exports, require, module
 
     HomePageView.prototype.className = 'home-page';
 
+    HomePageView.prototype.id = 'home-page';
+
     return HomePageView;
 
   })(PageView);
@@ -952,73 +904,91 @@ window.require.define({"views/layout": function(exports, require, module) {
   
 }});
 
-window.require.define({"views/login_view": function(exports, require, module) {
-  var LoginView, View, template, utils,
+window.require.define({"views/sidebar_view": function(exports, require, module) {
+  var SidebarView, View, template,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
-  utils = require('lib/utils');
-
   View = require('views/base/view');
 
-  template = require('views/templates/login');
+  template = require('views/templates/sidebar');
 
-  module.exports = LoginView = (function(_super) {
+  module.exports = SidebarView = (function(_super) {
 
-    __extends(LoginView, _super);
+    __extends(SidebarView, _super);
 
-    function LoginView() {
-      return LoginView.__super__.constructor.apply(this, arguments);
+    function SidebarView() {
+      this.btnUpdate = __bind(this.btnUpdate, this);
+
+      this.btnRemove = __bind(this.btnRemove, this);
+
+      this.btnAdd = __bind(this.btnAdd, this);
+      return SidebarView.__super__.constructor.apply(this, arguments);
     }
 
-    LoginView.prototype.template = template;
+    SidebarView.prototype.template = template;
 
-    LoginView.prototype.id = 'login';
+    SidebarView.prototype.id = 'sidebar';
 
-    LoginView.prototype.container = '#content-container';
+    SidebarView.prototype.className = 'sidebar';
 
-    LoginView.prototype.autoRender = true;
+    SidebarView.prototype.container = '#sidebar-container';
 
-    LoginView.prototype.initialize = function(options) {
-      LoginView.__super__.initialize.apply(this, arguments);
-      return this.initButtons(options.serviceProviders);
+    SidebarView.prototype.autoRender = true;
+
+    SidebarView.prototype.initialize = function() {
+      var _this = this;
+      SidebarView.__super__.initialize.apply(this, arguments);
+      this.modelBind('change', this.render);
+      this.subscribeEvent('navigation:change', function(attributes) {
+        return _this.model.set(attributes);
+      });
+      this.subscribeEvent('x3d:object:select', function(object) {
+        var selectedObject, transform;
+        transform = object.parentElement.getAttribute('translation').split(' ');
+        selectedObject = _this.model.get('selectedObject');
+        selectedObject.translation.x = transform[0];
+        selectedObject.translation.y = transform[1];
+        selectedObject.translation.z = transform[2];
+        return _this.render();
+      });
+      this.delegate('click', '#btn_add', this.btnAdd);
+      this.delegate('click', '#btn_remove', this.btnRemove);
+      this.delegate('click', '#btn_update', this.btnUpdate);
+      this.delegate('change', '#x', function(event) {
+        var selectedObject;
+        selectedObject = _this.model.get('selectedObject');
+        return selectedObject.translation.x = event.target.value;
+      });
+      this.delegate('change', '#y', function(event) {
+        var selectedObject;
+        selectedObject = _this.model.get('selectedObject');
+        return selectedObject.translation.y = event.target.value;
+      });
+      return this.delegate('change', '#z', function(event) {
+        var selectedObject;
+        selectedObject = _this.model.get('selectedObject');
+        return selectedObject.translation.z = event.target.value;
+      });
     };
 
-    LoginView.prototype.initButtons = function(serviceProviders) {
-      var buttonSelector, failed, loaded, loginHandler, serviceProvider, serviceProviderName, _results;
-      _results = [];
-      for (serviceProviderName in serviceProviders) {
-        serviceProvider = serviceProviders[serviceProviderName];
-        buttonSelector = "." + serviceProviderName;
-        this.$(buttonSelector).addClass('service-loading');
-        loginHandler = _(this.loginWith).bind(this, serviceProviderName, serviceProvider);
-        this.delegate('click', buttonSelector, loginHandler);
-        loaded = _(this.serviceProviderLoaded).bind(this, serviceProviderName, serviceProvider);
-        serviceProvider.done(loaded);
-        failed = _(this.serviceProviderFailed).bind(this, serviceProviderName, serviceProvider);
-        _results.push(serviceProvider.fail(failed));
-      }
-      return _results;
+    SidebarView.prototype.btnAdd = function(event) {
+      return this.publishEvent('sidebar:btn_add:click', event);
     };
 
-    LoginView.prototype.loginWith = function(serviceProviderName, serviceProvider, event) {
-      event.preventDefault();
-      if (!serviceProvider.isLoaded()) {
-        return;
-      }
-      this.publishEvent('login:pickService', serviceProviderName);
-      return this.publishEvent('!login', serviceProviderName);
+    SidebarView.prototype.btnRemove = function(event) {
+      return this.publishEvent('sidebar:btn_remove:click', event);
     };
 
-    LoginView.prototype.serviceProviderLoaded = function(serviceProviderName) {
-      return this.$("." + serviceProviderName).removeClass('service-loading');
+    SidebarView.prototype.btnUpdate = function(event) {
+      return this.publishEvent('sidebar:btn_update:click', {
+        event: event,
+        selectedObject: this.model.get('selectedObject')
+      });
     };
 
-    LoginView.prototype.serviceProviderFailed = function(serviceProviderName) {
-      return this.$("." + serviceProviderName).removeClass('service-loading').addClass('service-unavailable').attr('disabled', true).attr('title', "Error connecting. Please check whether you areblocking " + (utils.upcase(serviceProviderName)) + ".");
-    };
-
-    return LoginView;
+    return SidebarView;
 
   })(View);
   
@@ -1063,15 +1033,201 @@ window.require.define({"views/templates/home": function(exports, require, module
     var foundHelper, self=this;
 
 
-    return "<a href=\"http://brunch.io/\">\n  <img src=\"http://brunch.io/images/brunch.png\" alt=\"Brunch\" />\n</a>\n";});
+    return "<h1 id=\"scegratoo\">SceGraToo</h1>\n\n<p>This Project is part of my bachelor thesis.</p>\n\n<h2 id=\"goal\">Goal</h2>\n\n<h3 id=\"building-a-web-based-3d-composition-tool\">Building a web based 3D composition tool.</h3>\n\n<p>Build a web based 3D scene composition tool for the Project <code>Roundtrip3D</code> using current web technologies.\nThe Tool should provide following views and features</p>\n\n<ul>\n<li>A 3D View to visualize and edit 3D scenes in the X3DOM format</li>\n<li>A tree view to outline and edit 3D scenes in the X3DOM format</li>\n<li>A text view to edit JavaScript code</li>\n<li>A diagram view for SSIML (<code>Scene Structure and Integration Modelling Language</code>) models</li>\n<li>optional feature: launch transformation (transforming SSIML to X3DOM and JavaScript and the other way around) jobs on another machine running an eclipse instance</li>\n</ul>\n\n<p>Requirements: model driven software engineering, web development, JavaScript programming, 3D modeling</p>\n\n<h2 id=\"stack\">Stack</h2>\n\n<p>The stack used for building this is <a href=\"https://github.com/paulmillr/brunch-with-chaplin\">brunch with chaplin</a>.</p>\n\n<h3 id=\"brunch\">Brunch</h3>\n\n<blockquote>\n  <p><a href=\"http://brunch.io/\">Brunch</a> is an assembler for HTML5 applications. It‘s agnostic to frameworks, libraries, programming, stylesheet &amp; templating languages and backend technology.</p>\n</blockquote>\n\n<p>For this project <a href=\"http://coffeescript.org/\">CoffeeScript</a>, <a href=\"http://learnboost.github.com/stylus/\">Stylus</a> and <a href=\"http://handlebarsjs.com/\">Handlbars.js</a> are used.</p>\n\n<h3 id=\"chaplin\">Chaplin</h3>\n\n<blockquote>\n  <p><a href=\"http://documentcloud.github.com/backbone/\">Chaplin</a> is an architecture for JavaScript applications using the <a href=\"http://documentcloud.github.com/backbone/\">Backbone.js</a> library. The code is derived from <a href=\"http://moviepilot.com/\">moviepilot.com</a>, a large single-page application.</p>\n</blockquote>\n\n<h2 id=\"license\">License</h2>\n\n<p>The MIT license.</p>\n\n<p>Copyright (c) 2012 Danny Arnold (danny.arnold@student.tu-freiberg.de)</p>\n\n<p>Permission is hereby granted, free of charge, to any person obtaining a copy of\nthis software and associated documentation files (the \"Software\"), to deal in\nthe Software without restriction, including without limitation the rights to\nuse, copy, modify, merge, publish, distribute, sublicense, and/or sell copies\nof the Software, and to permit persons to whom the Software is furnished to do\nso, subject to the following conditions:</p>\n\n<p>The above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.</p>\n\n<p>THE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.</p>\n";});
 }});
 
-window.require.define({"views/templates/login": function(exports, require, module) {
+window.require.define({"views/templates/sidebar": function(exports, require, module) {
   module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
     helpers = helpers || Handlebars.helpers;
-    var buffer = "", foundHelper, self=this;
+    var buffer = "", stack1, stack2, stack3, foundHelper, tmp1, self=this, functionType="function", helperMissing=helpers.helperMissing, undef=void 0, escapeExpression=this.escapeExpression, blockHelperMissing=helpers.blockHelperMissing;
 
+  function program1(depth0,data) {
+    
+    var buffer = "", stack1;
+    buffer += "\n  <div class=\"\">\n    <button id=\"btn_add\" class=\"sidebar-buttons\">Add</button>\n    <button id=\"btn_remove\" class=\"sidebar-buttons\">Remove</button>\n    <button id=\"btn_update\" class=\"sidebar-buttons\">Update</button>\n  </div>\n  <div id=\"sidebar-coords\" class=\"\">\n    <label for='x'>X:</label>\n    <input id=\"x\" class=\"sidebar-inputs\" type=\"text\" value='";
+    foundHelper = helpers.selectedObject;
+    stack1 = foundHelper || depth0.selectedObject;
+    stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1.translation);
+    stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1['x']);
+    if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+    else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "selectedObject.translation.x", { hash: {} }); }
+    buffer += escapeExpression(stack1) + "' /><br>\n    <label for='y'>Y:</label>\n    <input id=\"y\" class=\"sidebar-inputs\" type=\"text\" value='";
+    foundHelper = helpers.selectedObject;
+    stack1 = foundHelper || depth0.selectedObject;
+    stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1.translation);
+    stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1['y']);
+    if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+    else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "selectedObject.translation.y", { hash: {} }); }
+    buffer += escapeExpression(stack1) + "' /><br>\n    <label for='z'>Z:</label>\n    <input id=\"z\" class=\"sidebar-inputs\" type=\"text\" value='";
+    foundHelper = helpers.selectedObject;
+    stack1 = foundHelper || depth0.selectedObject;
+    stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1.translation);
+    stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1['z']);
+    if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+    else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "selectedObject.translation.z", { hash: {} }); }
+    buffer += escapeExpression(stack1) + "' /><br><br>\n  </div>\n  <div class='sidebar-sliders'>\n    <label for=\"trans_x\">X:</label>\n    <input type=\"text\" id=\"trans_x\" class=\"sidebar-inputs\" value='";
+    foundHelper = helpers.selectedObject;
+    stack1 = foundHelper || depth0.selectedObject;
+    stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1.translation);
+    stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1['x']);
+    if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+    else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "selectedObject.translation.x", { hash: {} }); }
+    buffer += escapeExpression(stack1) + "'/><br>\n    <label for=\"trans_y\">Y:</label>\n    <input type=\"text\" id=\"trans_y\" class=\"sidebar-inputs\" value='";
+    foundHelper = helpers.selectedObject;
+    stack1 = foundHelper || depth0.selectedObject;
+    stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1.translation);
+    stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1['y']);
+    if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+    else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "selectedObject.translation.y", { hash: {} }); }
+    buffer += escapeExpression(stack1) + "'/><br>\n    <label for=\"trans_z\">Z:</label>\n    <input type=\"text\" id=\"trans_z\" class=\"sidebar-inputs\" value='";
+    foundHelper = helpers.selectedObject;
+    stack1 = foundHelper || depth0.selectedObject;
+    stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1.translation);
+    stack1 = (stack1 === null || stack1 === undefined || stack1 === false ? stack1 : stack1['z']);
+    if(typeof stack1 === functionType) { stack1 = stack1.call(depth0, { hash: {} }); }
+    else if(stack1=== undef) { stack1 = helperMissing.call(depth0, "selectedObject.translation.z", { hash: {} }); }
+    buffer += escapeExpression(stack1) + "'/>\n  </div>\n";
+    return buffer;}
 
+  function program3(depth0,data) {
+    
+    
+    return "\nWelcome to SceGraToo</br>\nChoose a View\n";}
+
+    stack1 = "x3d-page";
+    foundHelper = helpers.activeView;
+    stack2 = foundHelper || depth0.activeView;
+    foundHelper = helpers.match;
+    stack3 = foundHelper || depth0.match;
+    tmp1 = self.program(1, program1, data);
+    tmp1.hash = {};
+    tmp1.fn = tmp1;
+    tmp1.inverse = self.noop;
+    if(foundHelper && typeof stack3 === functionType) { stack1 = stack3.call(depth0, stack2, stack1, tmp1); }
+    else { stack1 = blockHelperMissing.call(depth0, stack3, stack2, stack1, tmp1); }
+    if(stack1 || stack1 === 0) { buffer += stack1; }
+    buffer += "\n";
+    stack1 = "home-page";
+    foundHelper = helpers.activeView;
+    stack2 = foundHelper || depth0.activeView;
+    foundHelper = helpers.match;
+    stack3 = foundHelper || depth0.match;
+    tmp1 = self.program(3, program3, data);
+    tmp1.hash = {};
+    tmp1.fn = tmp1;
+    tmp1.inverse = self.noop;
+    if(foundHelper && typeof stack3 === functionType) { stack1 = stack3.call(depth0, stack2, stack1, tmp1); }
+    else { stack1 = blockHelperMissing.call(depth0, stack3, stack2, stack1, tmp1); }
+    if(stack1 || stack1 === 0) { buffer += stack1; }
+    buffer += "\n";
     return buffer;});
+}});
+
+window.require.define({"views/templates/x3d": function(exports, require, module) {
+  module.exports = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+    helpers = helpers || Handlebars.helpers;
+    var foundHelper, self=this;
+
+
+    return "<X3D class=\"x3d\" id=\"x3d\" xmlns=\"http://www.web3d.org/specifications/x3d-namespace\" debug=\"true\" showStat=\"false\" showLog=\"false\">\n  <Scene id=\"the_scene\" DEF=\"scene\">\n    <Viewpoint position=\"0 0 100\" orientation=\"0 0 0 1\"></Viewpoint>\n    <Group id=\"root\">\n      <!-- Dynamically added Stuff -->\n    </Group>\n  </Scene>\n</X3D>\n";});
+}});
+
+window.require.define({"views/x3d_page_view": function(exports, require, module) {
+  var PageView, X3dPageView, template,
+    __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
+    __hasProp = {}.hasOwnProperty,
+    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+
+  template = require('views/templates/x3d');
+
+  PageView = require('views/base/page_view');
+
+  module.exports = X3dPageView = (function(_super) {
+    var currentObject;
+
+    __extends(X3dPageView, _super);
+
+    function X3dPageView() {
+      this.select = __bind(this.select, this);
+
+      this.updateObject = __bind(this.updateObject, this);
+
+      this.removeObject = __bind(this.removeObject, this);
+
+      this.addObject = __bind(this.addObject, this);
+      return X3dPageView.__super__.constructor.apply(this, arguments);
+    }
+
+    X3dPageView.prototype.template = template;
+
+    X3dPageView.prototype.className = 'x3d-page';
+
+    X3dPageView.prototype.id = 'x3d-page';
+
+    X3dPageView.prototype.offset = 0;
+
+    currentObject = null;
+
+    X3dPageView.prototype.initialize = function() {
+      var _this = this;
+      X3dPageView.__super__.initialize.apply(this, arguments);
+      this.subscribeEvent('sidebar:btn_add:click', function(attributes) {
+        return _this.addObject(attributes);
+      });
+      this.subscribeEvent('sidebar:btn_remove:click', function(attributes) {
+        return _this.removeObject(attributes);
+      });
+      return this.subscribeEvent('sidebar:btn_update:click', function(attributes) {
+        return _this.updateObject(attributes);
+      });
+    };
+
+    X3dPageView.prototype.addObject = function(event) {
+      var box, shape, transform;
+      transform = document.createElement('Transform');
+      shape = document.createElementWithCallback('Shape', this.select, "click");
+      box = document.createElement('Box');
+      transform.setAttribute('translation', "" + this.offset + " 0 0");
+      shape.appendChild(box);
+      transform.appendChild(shape);
+      window.root.appendChild(transform);
+      return this.offset += 3;
+    };
+
+    X3dPageView.prototype.removeObject = function(event) {
+      var pa;
+      if (this.currentObject) {
+        pa = this.currentObject.parentElement;
+        pa.removeChild(this.currentObject);
+        return this.currentObject = null;
+      }
+    };
+
+    X3dPageView.prototype.updateObject = function(attributes) {
+      var translation;
+      translation = this.currentObject.parentElement;
+      return translation.setAttribute('translation', "" + attributes.selectedObject.translation.x + " " + attributes.selectedObject.translation.y + " " + attributes.selectedObject.translation.z);
+    };
+
+    document.createElementWithCallback = function(obj_name, callback, event_type) {
+      var obj;
+      obj = document.createElement(obj_name);
+      obj.addEventListener(event_type, callback);
+      console.log('addEventListener does not work');
+      if (event_type === 'click') {
+        obj.onclick = callback;
+      }
+      return obj;
+    };
+
+    X3dPageView.prototype.select = function(event) {
+      this.currentObject = event.target;
+      return this.publishEvent('x3d:object:select', this.currentObject);
+    };
+
+    return X3dPageView;
+
+  })(PageView);
+  
 }});
 

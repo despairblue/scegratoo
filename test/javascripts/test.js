@@ -74,6 +74,35 @@
   globals.require.brunch = true;
 })();
 
+window.require.define({"test/controllers/sidebar_controller_test": function(exports, require, module) {
+  var Sidebar;
+
+  Sidebar = require('controllers/sidebar_controller');
+
+  describe('Sidebar', function() {
+    beforeEach(function() {
+      return this.controller = new Sidebar();
+    });
+    return afterEach(function() {
+      return this.controller.dispose();
+    });
+  });
+  
+}});
+
+window.require.define({"test/controllers/x3d_controller_test": function(exports, require, module) {
+  var X3d;
+
+  X3d = require('controllers/x3d_controller');
+
+  describe('X3d', function() {
+    return beforeEach(function() {
+      return this.controller = new X3d();
+    });
+  });
+  
+}});
+
 window.require.define({"test/models/header_test": function(exports, require, module) {
   var Header;
 
@@ -87,7 +116,20 @@ window.require.define({"test/models/header_test": function(exports, require, mod
       return this.model.dispose();
     });
     return it('should contain 4 items', function() {
-      return expect(this.model.get('items')).to.have.length(4);
+      return expect(this.model.get('items')).to.have.length(5);
+    });
+  });
+  
+}});
+
+window.require.define({"test/models/sidebar_test": function(exports, require, module) {
+  var Sidebar;
+
+  Sidebar = require('models/sidebar');
+
+  describe('Sidebar', function() {
+    return beforeEach(function() {
+      return this.model = new Sidebar();
     });
   });
   
@@ -151,7 +193,7 @@ window.require.define({"test/views/header_view_test": function(exports, require,
       return this.model.dispose();
     });
     it('should display 4 links', function() {
-      return expect(this.view.$el.find('a')).to.have.length(4);
+      return expect(this.view.$el.find('a')).to.have.length(5);
     });
     return it('should re-render on login event', function() {
       expect(this.view.renderTimes).to.equal(1);
@@ -175,12 +217,89 @@ window.require.define({"test/views/home_page_view_test": function(exports, requi
       return this.view.dispose();
     });
     return it('should auto-render', function() {
-      return expect(this.view.$el.find('img')).to.have.length(1);
+      return expect(this.view.$el.find('h1')).to.have.length(1);
     });
   });
   
 }});
 
+window.require.define({"test/views/sidebar_view_test": function(exports, require, module) {
+  var Sidebar, SidebarView, mediator;
+
+  mediator = require('mediator');
+
+  Sidebar = require('models/sidebar');
+
+  SidebarView = require('views/sidebar_view');
+
+  describe('SidebarView', function() {
+    beforeEach(function() {
+      this.model = new Sidebar();
+      return this.view = new SidebarView({
+        model: this.model
+      });
+    });
+    afterEach(function() {
+      this.view.dispose();
+      return this.model.dispose();
+    });
+    it('should contain only one element when home view is active', function() {
+      mediator.publish('navigation:change', {
+        activeView: 'home-page'
+      });
+      return expect(this.view.$el.children()).to.have.length(1);
+    });
+    it('should contain 3 buttons when x3d view is active', function() {
+      mediator.publish('navigation:change', {
+        activeView: 'x3d-page'
+      });
+      return expect(this.view.$el.find('button')).to.have.length(3);
+    });
+    return it('input forms should contain the values 1, 2 and 3 when x3d view is active', function() {
+      var object;
+      object = {
+        parentElement: {
+          getAttribute: function() {
+            return '1 2 3';
+          }
+        }
+      };
+      mediator.publish('navigation:change', {
+        activeView: 'x3d-page'
+      });
+      mediator.publish('x3d:object:select', object);
+      expect((this.view.$el.find('#x'))[0]).to.have.property('value', '1');
+      expect((this.view.$el.find('#y'))[0]).to.have.property('value', '2');
+      return expect((this.view.$el.find('#z'))[0]).to.have.property('value', '3');
+    });
+  });
+  
+}});
+
+window.require.define({"test/views/x3d_view_test": function(exports, require, module) {
+  var X3dView;
+
+  X3dView = require('views/x3d_page_view');
+
+  describe('X3dView', function() {
+    beforeEach(function() {
+      return this.view = new X3dView();
+    });
+    afterEach(function() {
+      return this.view.dispose();
+    });
+    return it('should contain 1 x3d node', function() {
+      return expect(this.view.$el.find('x3d')).to.have.length(1);
+    });
+  });
+  
+}});
+
+window.require('test/controllers/sidebar_controller_test');
+window.require('test/controllers/x3d_controller_test');
 window.require('test/models/header_test');
+window.require('test/models/sidebar_test');
 window.require('test/views/header_view_test');
 window.require('test/views/home_page_view_test');
+window.require('test/views/sidebar_view_test');
+window.require('test/views/x3d_view_test');
