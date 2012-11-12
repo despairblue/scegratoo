@@ -21,7 +21,7 @@ module.exports = class SidebarView extends View
       selectedObject = @model.get('selectedObject')
       selectedObject.translation.x = transform[0]
       selectedObject.translation.y = transform[1]
-      selectedObject.translation.y = transform[2]
+      selectedObject.translation.z = transform[2]
       @render()
 
     @delegate 'click', '#btn_add', @btnAdd
