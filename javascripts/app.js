@@ -695,6 +695,7 @@ window.require.define({"routes": function(exports, require, module) {
   
   module.exports = function(match) {
     match('', 'home#show');
+    match('scegratoo/', 'home#show');
     return match('X3D/', 'x3d#show');
   };
   
