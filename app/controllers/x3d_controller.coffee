@@ -1,7 +1,7 @@
 Controller = require 'controllers/base/controller'
 X3dPageView = require 'views/x3d_page_view'
 
-module.exports = class X3dsController extends Controller
+module.exports = class X3dController extends Controller
   historyURL: 'x3d'
 
   show: ->
