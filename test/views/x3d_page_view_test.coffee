@@ -1,8 +1,8 @@
-X3dView = require 'views/x3d_page_view'
+X3dPageView = require 'views/x3d_page_view'
 
-describe 'X3dView', ->
+describe 'X3dPageView', ->
   beforeEach ->
-    @view = new X3dView()
+    @view = new X3dPageView()
 
   afterEach ->
     @view.dispose()
