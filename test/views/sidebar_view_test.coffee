@@ -19,6 +19,10 @@ describe 'SidebarView', ->
     mediator.publish 'navigation:change', {activeView:'x3d-page'}
     expect(@view.$el.find 'button').to.have.length 3
 
+  it 'should contain 6 inputs when x3d view is active', ->
+    mediator.publish 'navigation:change', {activeView:'x3d-page'}
+    expect(@view.$el.find 'input').to.have.length 6
+
   it 'input forms should contain the values 1, 2 and 3 when x3d view is active', ->
     object = parentElement:
       getAttribute: ->
