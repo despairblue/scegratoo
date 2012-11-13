@@ -1,3 +1,8 @@
 Controller = require 'controllers/base/controller'
+# {{#camelize}}{{name}}{{/camelize}}View = require 'views/{{name}}'
 
 module.exports = class {{#camelize}}{{pluralName}}{{/camelize}}Controller extends Controller
+
+  show: ->
+    # @model = new {{#camelize}}{{name}}{{/camelize}}()
+    # @view = new {{#camelize}}{{name}}{{/camelize}}View({@model})

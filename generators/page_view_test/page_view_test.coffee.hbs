@@ -1,5 +1,10 @@
-{{#camelize}}{{name}}{{/camelize}}View = require 'views/{{name}}_page_view'
+{{#camelize}}{{name}}{{/camelize}}PageView = require 'views/{{name}}_page_view'
 
-describe '{{#camelize}}{{name}}{{/camelize}}View', ->
+describe '{{#camelize}}{{name}}{{/camelize}}PageView', ->
   beforeEach ->
-    @view = new {{#camelize}}{{name}}{{/camelize}}View()
+    # @model = new {{#camelize}}{{name}}{{/camelize}}()
+    @view = new {{#camelize}}{{name}}{{/camelize}}PageView()
+
+  afterEach ->
+    # @model.dispose()
+    @view.dispose()

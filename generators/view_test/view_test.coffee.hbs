@@ -2,4 +2,9 @@
 
 describe '{{#camelize}}{{name}}{{/camelize}}View', ->
   beforeEach ->
+    # @model = new {{#camelize}}{{name}}{{/camelize}}()
     @view = new {{#camelize}}{{name}}{{/camelize}}View()
+
+  afterEach ->
+    # @model.dispose()
+    @view.dispose()
