@@ -1,8 +1,22 @@
 @import 'nib'
 
-.x3d {
-  width: 100%;
-  height: 90%;
-  background: #000000;
-  border: none;
-}
+.x3d
+  width 100%
+  height 90%
+  background #000000
+  border none
+
+#floating-menu-container
+  background none
+  position absolute
+  z-index 1
+  display none
+
+#floating-menu
+  padding 10px
+  color black
+  border-radius 5px
+  background-clip padding-box
+  background-color white
+  border 10px solid rgba(250, 250, 250, 0.2)
+  opacity 0.5

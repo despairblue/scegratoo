@@ -1352,7 +1352,7 @@ x3dom.X3DCanvas.prototype.tick = function() {
     }
   } catch(e) {
     x3dom.debug.logException(e);
-    throw e;
+    throw(e);
   }
 };
 x3dom.X3DCanvas.prototype.load = function(uri, sceneElemPos, settings) {
@@ -6396,6 +6396,7 @@ x3dom.Viewarea.prototype.callEvtHandler = function(node, eventType, event) {
     }
   } catch(ex) {
     x3dom.debug.logException(ex);
+    throw ex;
   }
   return event.cancelBubble;
 };
@@ -6428,6 +6429,7 @@ x3dom.Viewarea.prototype.checkEvents = function(obj, x, y, buttonState, eventTyp
     }
   } catch(e) {
     x3dom.debug.logException(e);
+    throw(e);
   }
   var recurse = function(obj) {
       Array.forEach(obj._parentNodes, function(node) {
@@ -9285,6 +9287,7 @@ x3dom.registerNodeType("X3DNode", "Core", defineClass(null, function(ctx) {
       }
     } catch(ex) {
       x3dom.debug.logException(ex);
+      throw(ex);
     }
     return event.cancelBubble;
   },
@@ -12459,6 +12462,7 @@ x3dom.registerNodeType("Inline", "Networking", defineClass(x3dom.nodeTypes.X3DGr
             }
           } catch(ex) {
             x3dom.debug.logException(ex);
+            throw(ex);
           }
         }
         that._nameSpace.doc.downloadCount -= 1;
@@ -12504,6 +12508,7 @@ x3dom.registerNodeType("Inline", "Networking", defineClass(x3dom.nodeTypes.X3DGr
             }
           } catch(ex) {
             x3dom.debug.logException(ex);
+            throw(ex);
           }
         }
       }
@@ -12545,6 +12550,7 @@ x3dom.registerNodeType("Inline", "Networking", defineClass(x3dom.nodeTypes.X3DGr
             }
           } catch(ex) {
             x3dom.debug.logException(ex);
+            throw(ex);
           }
         }
       } else {
