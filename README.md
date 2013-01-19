@@ -36,7 +36,7 @@ Link the `hooks` dir to `.git/hooks`.
 ## License
 The MIT license.
 
-Copyright (c) 2012 Danny Arnold (danny.arnold@student.tu-freiberg.de)
+Copyright (c) 2013 Danny Arnold (danny.arnold@student.tu-freiberg.de)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
