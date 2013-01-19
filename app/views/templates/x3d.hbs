@@ -1,11 +1,11 @@
 <div id='floating-menu-container'>
   <div id='floating-menu'>
-    <label for="trans_x">X:</label>
-    <input type="range" id="trans_x" class="sidebar-inputs" min='-100' max='100' value='0'/><br>
-    <label for="trans_y">Y:</label>
-    <input type="range" id="trans_y" class="sidebar-inputs" min='-100' max='100' value='0'/><br>
-    <label for="trans_z">Z:</label>
-    <input type="range" id="trans_z" class="sidebar-inputs" min='-100' max='100' value='0'/>
+    <label for="trans-x">X:</label>
+    <input type="range" id="trans-x" class="sidebar-inputs" min='-100' max='100' value='{{floatingMenuObject.translation.x}}'/><br>
+    <label for="trans-y">Y:</label>
+    <input type="range" id="trans-y" class="sidebar-inputs" min='-100' max='100' value='{{floatingMenuObject.translation.y}}'/><br>
+    <label for="trans-z">Z:</label>
+    <input type="range" id="trans-z" class="sidebar-inputs" min='-100' max='100' value='{{floatingMenuObject.translation.z}}'/>
   </div>
 </div>
 <X3D class="x3d" id="x3d" xmlns="http://www.web3d.org/specifications/x3d-namespace" debug="true" showStat="false" showLog="false">

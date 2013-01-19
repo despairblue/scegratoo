@@ -9,6 +9,7 @@ module.exports = class X3dPageView extends PageView
   # should be in the model
   offset: 0
   currentObject = null
+  floatingMenuObject = null
   pageX: 0
   pageY: 0
 
@@ -20,9 +21,21 @@ module.exports = class X3dPageView extends PageView
       @removeObject(attributes)
     @subscribeEvent 'sidebar:btn_update:click', (attributes) =>
       @updateObject(attributes)
-    $('body').on 'mousemove', 'canvas', (e) =>
+    $('#page-container').on 'mousemove', 'canvas', (e) =>
       @pageX = e.pageX
       @pageY = e.pageY
+    $('#page-container').on 'change', '#trans-x', (e) =>
+      obj = @toModelObject(@floatingMenuObject)
+      @floatingMenuObject.parentElement.setAttribute('translation',
+      "#{e.target.value} #{obj.translation.y} #{obj.translation.z}")
+    $('#page-container').on 'change', '#trans-y', (e) =>
+      obj = @toModelObject(@floatingMenuObject)
+      @floatingMenuObject.parentElement.setAttribute('translation',
+      "#{obj.translation.x} #{e.target.value} #{obj.translation.z}")
+    $('#page-container').on 'change', '#trans-z', (e) =>
+      obj = @toModelObject(@floatingMenuObject)
+      @floatingMenuObject.parentElement.setAttribute('translation',
+      "#{obj.translation.x} #{obj.translation.y} #{e.target.value}")
 
   addObject: (event) =>
     box       = document.createElement('Box')
@@ -65,6 +78,7 @@ module.exports = class X3dPageView extends PageView
     @publishEvent 'x3d:object:select', @currentObject
 
   hover: (e) =>
+    @floatingMenuObject = e.target
     if $('#floating-menu-container').css('display') is 'none'
       $('#floating-menu-container').
       css('left', @pageX - 5).
@@ -73,3 +87,15 @@ module.exports = class X3dPageView extends PageView
 
   leave: (e) =>
     $('#floating-menu-container').fadeOut()
+
+  toModelObject: (obj) ->
+    returnObject =
+      translation:
+        x: 0
+        y: 0
+        z: 0
+    transform = obj.parentElement.getAttribute('translation').split(' ')
+    returnObject.translation.x = transform[0]
+    returnObject.translation.y = transform[1]
+    returnObject.translation.z = transform[2]
+    returnObject

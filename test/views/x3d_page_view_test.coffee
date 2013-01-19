@@ -9,3 +9,4 @@ describe 'X3dPageView', ->
 
   it 'should contain 1 x3d node', ->
     expect(@view.$el.find 'x3d').to.have.length 1
+
