@@ -27,6 +27,12 @@ For this project [CoffeeScript](http://coffeescript.org/), [Stylus](http://learn
 ### Chaplin
 > [Chaplin](http://documentcloud.github.com/backbone/) is an architecture for JavaScript applications using the [Backbone.js](http://documentcloud.github.com/backbone/) library. The code is derived from [moviepilot.com](http://moviepilot.com/), a large single-page application.
 
+## Hooks
+Link the `hooks` dir to `.git/hooks`.
+> `cd .git`
+
+> `ln -s ../hooks .`
+
 ## License
 The MIT license.
 
