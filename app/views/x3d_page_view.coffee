@@ -6,7 +6,7 @@ module.exports = class X3dPageView extends PageView
   className: 'x3d-page'
   id: 'x3d-page'
   offset: 0
-  currentObject = null
+  currentObject = undefined
 
   initialize: ->
     super
@@ -31,7 +31,7 @@ module.exports = class X3dPageView extends PageView
     if @currentObject
       pa = @currentObject.parentElement
       pa.removeChild(@currentObject)
-      @currentObject = null
+      @currentObject = undefined
 
   updateObject: (attributes) =>
     translation = @currentObject.parentElement
