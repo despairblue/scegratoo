@@ -34,8 +34,8 @@ module.exports = class X3dPageView extends PageView
       @currentObject = undefined
 
   updateObject: (attributes) =>
-    translation = @currentObject.parentElement
-    translation.setAttribute('translation',
+    translation = @currentObject?.parentElement
+    translation?.setAttribute('translation',
     "#{attributes.selectedObject.translation.x} #{attributes.selectedObject.translation.y} #{attributes.selectedObject.translation.z}")
 
   document.createElementWithCallback = (obj_name, callback, event_type) ->
