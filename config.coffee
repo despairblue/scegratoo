@@ -30,3 +30,8 @@ exports.config =
 
     templates:
       joinTo: 'javascripts/app.js'
+
+  coffeelint:
+    options:
+      max_line_length:
+        level: "ignore"
