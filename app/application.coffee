@@ -1,8 +1,8 @@
 Chaplin = require 'chaplin'
 mediator = require 'mediator'
 routes = require 'routes'
-HeaderController = require 'controllers/header_controller'
-SidebarController = require 'controllers/sidebar_controller'
+HeaderController = require 'controllers/header-controller'
+SidebarController = require 'controllers/sidebar-controller'
 Layout = require 'views/layout'
 
 # The application object
@@ -15,7 +15,7 @@ module.exports = class Application extends Chaplin.Application
     super
 
     # Initialize core components
-    @initDispatcher()
+    @initDispatcher controllerSuffix: '-controller'
     @initLayout()
     @initMediator()
 
@@ -55,8 +55,8 @@ module.exports = class Application extends Chaplin.Application
   # Create additional mediator properties
   # -------------------------------------
   initMediator: ->
-    # Create a user property
-    mediator.user = undefined
     # Add additional application-specific properties and methods
+    # e.g. mediator.prop = null
+
     # Seal the mediator
     mediator.seal()

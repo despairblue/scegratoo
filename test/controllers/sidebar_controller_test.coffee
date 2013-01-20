@@ -1,4 +1,4 @@
-Sidebar = require 'controllers/sidebar_controller'
+Sidebar = require 'controllers/sidebar-controller'
 
 describe 'Sidebar', ->
   beforeEach ->

@@ -1,4 +1,4 @@
-X3dView = require 'views/x3d_page_view'
+X3dView = require 'views/x3d-page-view'
 
 describe 'X3dView', ->
   beforeEach ->

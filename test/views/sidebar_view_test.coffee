@@ -1,6 +1,6 @@
 mediator = require 'mediator'
 Sidebar = require 'models/sidebar'
-SidebarView = require 'views/sidebar_view'
+SidebarView = require 'views/sidebar-view'
 
 describe 'SidebarView', ->
   beforeEach ->

@@ -1,6 +1,6 @@
 mediator = require 'mediator'
 Header = require 'models/header'
-HeaderView = require 'views/header_view'
+HeaderView = require 'views/header-view'
 
 class HeaderViewTest extends HeaderView
   renderTimes: 0
