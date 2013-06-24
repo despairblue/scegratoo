@@ -11,8 +11,7 @@ module.exports = class SidebarView extends View
   initialize: ->
     super
 
-    # @modelBind 'change', @render
-    @listenTo(@model, 'change', @render)
+    @listenTo @model, 'change', @render
 
     @subscribeEvent 'navigation:change', (attributes) =>
       @model.set attributes

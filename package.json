@@ -16,23 +16,19 @@
     "test": "brunch test"
   },
   "dependencies": {
-    "javascript-brunch": ">= 1.0 < 1.6",
-    "coffee-script-brunch": ">= 1.0 < 1.6",
+    "javascript-brunch": ">= 1.0 < 1.7",
+    "coffee-script-brunch": ">= 1.0 < 1.7",
 
-    "css-brunch": ">= 1.0 < 1.6",
-    "stylus-brunch": ">= 1.0 < 1.6",
+    "css-brunch": ">= 1.0 < 1.7",
+    "stylus-brunch": ">= 1.0 < 1.7",
 
-    "handlebars-brunch": ">= 1.0 < 1.6",
+    "handlebars-brunch": ">= 1.0 < 1.7",
 
-    "uglify-js-brunch": ">= 1.0 < 1.6",
-    "clean-css-brunch": ">= 1.0 < 1.6",
+    "uglify-js-brunch": ">= 1.0 < 1.7",
+    "clean-css-brunch": ">= 1.0 < 1.7",
 
-    "coffeelint-brunch": "1.4.0",
-    "auto-reload-brunch": "1.5.0"
+    "coffeelint-brunch": "*",
+    "auto-reload-brunch": "*"
   },
-  "devDependencies": {
-    "chai": "1.2.0",
-    "sinon": "1.4.2",
-    "sinon-chai": "2.1.2"
-  }
+  "devDependencies": {}
 }
