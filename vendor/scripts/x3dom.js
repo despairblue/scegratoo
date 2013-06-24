@@ -15249,3 +15249,8 @@ x3dom.versionInfo = {
   revision: 'e982de5361bb1715e9897b912cdffe045d845b14',
   date: 'Mon Apr 2 18:30:42 2012 +0200'
 };
+
+if (typeof require === 'function' && typeof require.register === 'function') {
+  require.register('x3dom', function (exports, require, module) {
+    module.exports = x3dom;
+});}
