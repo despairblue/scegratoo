@@ -30,6 +30,10 @@ exports.config =
     templates:
       joinTo: 'javascripts/app.js'
 
+  # breaks handlebars
+  # modules:
+  #   addSourceURLs: true
+
   coffeelint:
     options:
       max_line_length:
