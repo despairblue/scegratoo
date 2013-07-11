@@ -8,5 +8,6 @@ Sidebar = require 'models/sidebar'
 module.exports = class Controller extends Chaplin.Controller
   beforeAction: ->
     @compose 'site', SiteView
-    @compose 'header', HeaderView, {model: new Header}
-    @compose 'sidebar', SidebarView, {model: new Sidebar}
+    @compose 'header', HeaderView,
+      model: new Header
+      region: 'header'
