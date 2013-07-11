@@ -5,7 +5,6 @@ module.exports = class SidebarView extends View
   template: template
   id: 'sidebar'
   className: 'sidebar'
-  container: '#sidebar-container'
   autoRender: true
 
   initialize: ->
