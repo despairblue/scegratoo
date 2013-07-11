@@ -1,8 +1,9 @@
 template = require 'views/templates/x3d'
-PageView = require 'views/base/page-view'
+View = require 'views/base/view'
 
-module.exports = class X3dPageView extends PageView
+module.exports = class X3dPageView extends View
   template: template
+  autoRender: true
   className: 'x3d-page'
   id: 'x3d-page'
   offset: 0
