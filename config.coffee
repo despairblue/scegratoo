@@ -30,9 +30,8 @@ exports.config =
     templates:
       joinTo: 'javascripts/app.js'
 
-  # breaks handlebars
-  # modules:
-  #   addSourceURLs: true
+  modules:
+    addSourceURLs: true
 
   coffeelint:
     options:
