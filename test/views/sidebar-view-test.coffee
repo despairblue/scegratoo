@@ -1,4 +1,4 @@
-mediator = require 'mediator'
+mediator = (require 'chaplin').mediator
 Sidebar = require 'models/sidebar'
 SidebarView = require 'views/sidebar-view'
 
