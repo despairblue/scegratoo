@@ -22,7 +22,7 @@
     "css-brunch": ">= 1.0 < 1.7",
     "stylus-brunch": ">= 1.0 < 1.7",
 
-    "handlebars-brunch": ">= 1.0 < 1.7",
+    "handlebars-brunch": "git+https://github.com/despairblue/handlebars-brunch.git",
 
     "uglify-js-brunch": ">= 1.0 < 1.7",
     "clean-css-brunch": ">= 1.0 < 1.7",
