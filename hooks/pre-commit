@@ -1,6 +1,6 @@
 git stash -q --keep-index
 
-brunch t
+brunch b;mocha-phantomjs public/test/index.html
 RESULT=$?
 
 git stash pop -q
