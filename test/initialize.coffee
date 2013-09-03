@@ -1,4 +1,6 @@
 tests = [
+  './controllers/controller-test'
+
   './views/header-view-test'
   './views/home-page-view-test'
   './views/x3d-view-test'
