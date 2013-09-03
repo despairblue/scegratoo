@@ -8,7 +8,7 @@ module.exports = class X3dPageView extends View
   id: 'x3d-page'
   offset: 0
   # currentObject = undefined
-  runtime = document.querySelector( 'x3d' )?.runtime
+  runtime: document.querySelector( 'x3d' )?.runtime
 
   initialize: ->
     super
