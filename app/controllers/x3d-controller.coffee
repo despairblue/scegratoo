@@ -1,6 +1,6 @@
 Controller = require 'controllers/base/controller'
 X3dPageView = require 'views/x3d-page-view'
-SidebarView = require 'views/sidebar-view'
+X3dSidebarView = require 'views/x3d-sidebar-view'
 Sidebar = require 'models/sidebar'
 x3dom = require 'x3dom'
 
@@ -8,16 +8,14 @@ module.exports = class X3dsController extends Controller
   historyURL: 'x3d'
 
   index: ->
-    x3dom.unload()
     @view = new X3dPageView region: 'main'
-    x3dom.load()
+    x3dom.reload()
 
   beforeAction: ->
     super
-    @compose 'sidebar', SidebarView,
+    @compose 'sidebar', X3dSidebarView,
       model: new Sidebar
       region: 'sidebar'
 
   dispose: ->
     super
-    x3dom.unload()

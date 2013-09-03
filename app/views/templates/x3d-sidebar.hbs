@@ -1,0 +1,21 @@
+<div class="">
+  <button id="btn_add" class="sidebar-buttons">Add</button>
+  <button id="btn_remove" class="sidebar-buttons">Remove</button>
+  <button id="btn_update" class="sidebar-buttons">Update</button>
+</div>
+<div id="sidebar-coords" class="">
+  <label for='x'>X:</label>
+  <input id="x" class="sidebar-inputs" type="text" value='{{selectedObject.translation.x}}' /><br>
+  <label for='y'>Y:</label>
+  <input id="y" class="sidebar-inputs" type="text" value='{{selectedObject.translation.y}}' /><br>
+  <label for='z'>Z:</label>
+  <input id="z" class="sidebar-inputs" type="text" value='{{selectedObject.translation.z}}' /><br><br>
+</div>
+<div class='sidebar-sliders'>
+  <label for="trans_x">X:</label>
+  <input type="range" id="trans_x" class="sidebar-inputs" min='-100' max='100' value='{{selectedObject.translation.x}}'/><br>
+  <label for="trans_y">Y:</label>
+  <input type="range" id="trans_y" class="sidebar-inputs" min='-100' max='100' value='{{selectedObject.translation.y}}'/><br>
+  <label for="trans_z">Z:</label>
+  <input type="range" id="trans_z" class="sidebar-inputs" min='-100' max='100' value='{{selectedObject.translation.z}}'/>
+</div>

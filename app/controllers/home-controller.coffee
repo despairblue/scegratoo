@@ -1,6 +1,6 @@
 Controller = require 'controllers/base/controller'
 HomePageView = require 'views/home-page-view'
-SidebarView = require 'views/sidebar-view'
+HomeSidebarView = require 'views/home-sidebar-view'
 Sidebar = require 'models/sidebar'
 
 module.exports = class HomeController extends Controller
@@ -9,6 +9,6 @@ module.exports = class HomeController extends Controller
 
   beforeAction: ->
     super
-    @compose 'sidebar', SidebarView,
+    @compose 'sidebar', HomeSidebarView,
       model: new Sidebar
       region: 'sidebar'

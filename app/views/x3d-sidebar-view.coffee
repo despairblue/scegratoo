@@ -1,7 +1,7 @@
 View = require 'views/base/view'
-template = require 'views/templates/sidebar'
+template = require 'views/templates/x3d-sidebar'
 
-module.exports = class SidebarView extends View
+module.exports = class X3dSidebarView extends View
   template: template
   id: 'sidebar'
   className: 'sidebar'
@@ -36,6 +36,8 @@ module.exports = class SidebarView extends View
       selectedObject = @model.get('selectedObject')
       selectedObject.translation.z = event.target.value
 
+    @delegate 'change', '#files', @btnLoadFile
+
   btnAdd: (event) =>
     @publishEvent 'sidebar:btn_add:click', event
 
@@ -44,3 +46,6 @@ module.exports = class SidebarView extends View
 
   btnUpdate: (event) =>
     @publishEvent 'sidebar:btn_update:click', event: event, selectedObject: @model.get('selectedObject')
+
+  btnLoadFile: (event) =>
+    @publishEvent 'sidebar:btn_load_file:click', event
