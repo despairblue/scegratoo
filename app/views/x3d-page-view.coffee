@@ -13,11 +13,11 @@ module.exports = class X3dPageView extends View
   initialize: ->
     super
     @subscribeEvent 'sidebar:btn_add:click', (attributes) =>
-      @addObject(attributes)
+      @addObject attributes
     @subscribeEvent 'sidebar:btn_remove:click', (attributes) =>
-      @removeObject(attributes)
+      @removeObject attributes
     @subscribeEvent 'sidebar:btn_update:click', (attributes) =>
-      @updateObject(attributes)
+      @updateObject attributes
 
   addObject: (event) =>
     transform = document.createElement('Transform')
@@ -45,8 +45,8 @@ module.exports = class X3dPageView extends View
 
     obj.addEventListener(event_type, callback)
     console.log 'addEventListener does not work'
-
     obj.onclick = callback if event_type is 'click'
+
     return obj
 
   select: ( event ) =>
