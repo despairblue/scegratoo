@@ -1,4 +1,3 @@
-Chaplin = require 'chaplin'
 Handlebars = require 'Handlebars' unless Handlebars?
 
 # Application-specific view helpers
