@@ -1,4 +1,4 @@
-mediator = (require 'chaplin').mediator
+mediator = Chaplin.mediator
 Header = require 'models/header'
 HeaderView = require 'views/header-view'
 

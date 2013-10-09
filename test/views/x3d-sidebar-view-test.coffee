@@ -1,4 +1,4 @@
-mediator = (require 'chaplin').mediator
+mediator = Chaplin.mediator
 Sidebar = require 'models/sidebar'
 X3dSidebarView = require 'views/x3d-sidebar-view'
 
