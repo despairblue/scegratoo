@@ -6,3 +6,5 @@ module.exports = class HomeSidebarView extends View
   id: 'sidebar'
   className: 'sidebar'
   autoRender: true
+  regions:
+    'projects': '.projects-container'
