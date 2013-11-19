@@ -1,12 +1,28 @@
-tests = [
-  './controllers/controller-test'
-
-  './views/header-view-test'
-  './views/home-page-view-test'
-  './views/x3d-view-test'
-  './views/home-sidebar-view-test'
-  './views/x3d-sidebar-view-test'
+models = [
+  'header'
+  'project'
+  'projects'
+  'sidebar'
+]
+views = [
+  'header'
+  'home-page'
+  'home-sidebar'
+  'x3d'
+  'x3d-sidebar'
+]
+controllers = [
+  'controller'
+  'x3d'
+  'home'
 ]
 
-for test in tests
-  require test
+
+for model in models
+  require './models/' + model + '-test'
+
+for view in views
+  require './views/' + view + '-view-test'
+
+for controller in controllers
+  require './controllers/' + controller + '-controller-test'

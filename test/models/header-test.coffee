@@ -3,9 +3,10 @@ Header = require 'models/header'
 describe 'Header', ->
   beforeEach ->
     @model = new Header()
+    # chai.should()
 
   afterEach ->
     @model.dispose()
 
-  it 'should contain 4 items', ->
-    expect(@model.get 'items').to.have.length 5
+  it 'should contain 3 items', ->
+    (@model.get 'items').length.should.equal 3
