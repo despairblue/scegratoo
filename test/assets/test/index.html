@@ -14,9 +14,10 @@
   <script src="javascripts/test.js"></script>
   <script>
   $(function() {
-    require('test/initialize');
-    if (window.mochaPhantomJS) { mochaPhantomJS.run(); }
-    else { mocha.run(); }
-  });
+    require('initialize') // initialize application
+    require('test/initialize') // initialize test suite
+    if (window.mochaPhantomJS) { mochaPhantomJS.run() }
+    else { mocha.run() }
+  })
   </script>
 </html>
