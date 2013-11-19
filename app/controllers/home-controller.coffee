@@ -20,3 +20,4 @@ module.exports = class HomeController extends Controller
     projects.fetch().then =>
       @compose 'projects', ProjectsView,
         collection: projects
+        region: 'projects'
