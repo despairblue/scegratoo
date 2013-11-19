@@ -8,4 +8,4 @@ describe 'HomeSidebarView', ->
     @view.dispose()
 
   it 'should contain only one element', ->
-    expect(@view.$el.children()).to.have.length 1
+    @view.$el.children().length.should.equal 2
