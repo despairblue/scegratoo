@@ -8,6 +8,8 @@ views = [
   'header'
   'home-page'
   'home-sidebar'
+  'project'
+  'projects'
   'x3d'
   'x3d-sidebar'
 ]
