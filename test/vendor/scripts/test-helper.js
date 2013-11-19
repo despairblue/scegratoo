@@ -3,7 +3,7 @@ mocha.setup({ui: 'bdd'})
 mocha.reporter('html')
 
 // initialize chai.should (@see http://chaijs.com/guide/styles/#should)
-window.should = chai.should()
+var should = chai.should()
 
 // Create another global variable for simpler syntax.
 window.expect = chai.expect
