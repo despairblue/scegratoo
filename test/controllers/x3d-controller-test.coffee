@@ -1,8 +1,8 @@
-X3d = require 'controllers/x3d-controller'
+X3dController = require 'controllers/x3d-controller'
 
-describe 'X3d', ->
+describe 'X3d Controller', ->
   beforeEach ->
-    @controller = new X3d()
+    @controller = new X3dController()
 
   afterEach ->
     @controller.dispose()
