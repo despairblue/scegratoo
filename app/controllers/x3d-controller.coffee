@@ -4,7 +4,7 @@ X3dSidebarView = require 'views/x3d-sidebar-view'
 Sidebar = require 'models/sidebar'
 x3dom = require 'x3dom'
 
-module.exports = class X3dsController extends Controller
+module.exports = class X3dController extends Controller
   historyURL: 'x3d'
 
   index: ->
